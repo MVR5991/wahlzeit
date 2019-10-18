@@ -10,6 +10,9 @@ env:
 
 script:
   - docker build -t ${IMAGE_NAME} .
+  - print "We are here"
+  - print ${IMAGE_NAME_TAGGED}
+  - print ${IMAGE_NAME}
 
 deploy:
   - provider: script
