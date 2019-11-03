@@ -21,6 +21,7 @@
 package org.wahlzeit.services;
 
 import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Test cases for the EmailAddress class.
@@ -44,6 +45,11 @@ public class EmailAddressTest extends TestCase {
 		assertTrue(createEmailAddressIgnoreException("bingo@bongo.com"));
 		assertTrue(createEmailAddressIgnoreException("bingo.bongo@bongo.com"));
 		assertTrue(createEmailAddressIgnoreException("bingo+bongo@bango"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetEmailAdressFromStringWithNullShouldFail() {
+		EmailAddress.getFromString(null);
 	}
 
 	/**
