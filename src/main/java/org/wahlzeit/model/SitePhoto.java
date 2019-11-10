@@ -1,5 +1,6 @@
 package org.wahlzeit.model;
 
+
 public class SitePhoto extends Photo{
 
     private Continent continent;
@@ -31,6 +32,7 @@ public class SitePhoto extends Photo{
     }
 
     public void setContinent(Continent continent) {
+        if(continent == null) throw new IllegalArgumentException("No Continent specified");
         this.continent = continent;
     }
 }
