@@ -53,7 +53,7 @@ dependencies {
     testCompile 'com.google.appengine:appengine-testing:+'
     testCompile 'com.google.appengine:appengine-api-stubs:+'
     testCompile 'com.google.appengine:appengine-api-labs:+'
-    testCompile 'com.google.appengine:appengine-tools-sdk:+'
+    testCompile 'com.google.appengine:appengine-tools-sdk:1.9.76'
     testCompile 'junit:junit:4.+'
     testCompile 'org.mockito:mockito-core:2.22.0'
 }
