@@ -15,7 +15,7 @@ public class SphericCoordinate implements Coordinate {
     }
 
     @Override
-    public CartesianCoordinate asCartesianCoordiante() {
+    public CartesianCoordinate asCartesianCoordinate() {
         return doAsCartesianCoordinate();
     }
 
@@ -26,7 +26,7 @@ public class SphericCoordinate implements Coordinate {
 
     @Override
     public double getCartesianDistance(Coordinate coordinate) {
-        return this.asCartesianCoordiante().getCartesianDistance(coordinate.asCartesianCoordiante());
+        return this.asCartesianCoordinate().getCartesianDistance(coordinate.asCartesianCoordinate());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SphericCoordinate implements Coordinate {
     }
 
     protected double doGetCentralAngle(Coordinate coordinate){
-        CartesianCoordinate cartCoordinate = this.asCartesianCoordiante();
+        CartesianCoordinate cartCoordinate = this.asCartesianCoordinate();
         double cartesianSubtraction = cartCoordinate.getCartesianDistance(coordinate);
         return Math.asin(cartesianSubtraction / 2) * 2;
     }

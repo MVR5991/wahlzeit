@@ -15,13 +15,13 @@ public class CartesianCoordinate implements Coordinate {
     }
 
     @Override
-    public CartesianCoordinate asCartesianCoordiante() {
+    public CartesianCoordinate asCartesianCoordinate() {
         return this;
     }
 
     @Override
     public double getCartesianDistance(Coordinate coordinate) {
-        CartesianCoordinate cartCoordiante = coordinate.asCartesianCoordiante();
+        CartesianCoordinate cartCoordiante = coordinate.asCartesianCoordinate();
         return Math.sqrt((this.x - cartCoordiante.getX()) + (this.y - cartCoordiante.getY())+ (this.z - cartCoordiante.getZ()));
     }
 

@@ -2,7 +2,7 @@ package org.wahlzeit.model;
 
 public interface Coordinate {
 
-     CartesianCoordinate asCartesianCoordiante();
+     CartesianCoordinate asCartesianCoordinate();
 
      double getCartesianDistance(Coordinate coordinate);
 
@@ -11,6 +11,5 @@ public interface Coordinate {
      boolean isEqual(Coordinate coordinate);
 
     SphericCoordinate asSphericCoordinate();
-
 
 }
