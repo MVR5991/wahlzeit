@@ -1,5 +1,6 @@
 package org.wahlzeit.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class CartesianCoordinate implements Coordinate {
@@ -32,7 +33,7 @@ public class CartesianCoordinate implements Coordinate {
 
     @Override
     public boolean isEqual(Coordinate coordinate) {
-        return this.equals(coordinate);
+        return this.equals(coordinate.asCartesianCoordinate());
     }
 
     @Override
@@ -50,16 +51,9 @@ public class CartesianCoordinate implements Coordinate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CartesianCoordinate that = (CartesianCoordinate) o;
-        return Double.compare(that.x, x) == 0 &&
-                Double.compare(that.y, y) == 0 &&
-                Double.compare(that.z, z) == 0;
-    }
-
-    protected SphericCoordinate doAsSphericCoordinate(){
-        double a = Math.toDegrees(Math.atan2(this.getY(), this.getX()));
-        double rad = Math.sqrt(Math.pow(this.getZ(), 2) + Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2));
-        double p = Math.toDegrees(Math.acos(this.getZ()/rad));
-        return new SphericCoordinate(p, a, rad);
+        return compareDouble(this.getX(), that.getX()) == 0 &&
+                compareDouble(this.getY(), that.getY()) == 0 &&
+                compareDouble(this.getZ(), that.getZ()) == 0;
     }
 
     public double getX() {
@@ -84,5 +78,16 @@ public class CartesianCoordinate implements Coordinate {
 
     public void setZ(double z) {
         this.z = z;
+    }
+
+    protected SphericCoordinate doAsSphericCoordinate() {
+        double a = Math.toDegrees(Math.atan2(this.getY(), this.getX()));
+        double rad = Math.sqrt(Math.pow(this.getZ(), 2) + Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2));
+        double p = Math.toDegrees(Math.acos(this.getZ() / rad));
+        return new SphericCoordinate(p, a, rad);
+    }
+
+    private static int compareDouble(double x, double y) {
+        return new BigDecimal(x).compareTo(new BigDecimal(y));
     }
 }

@@ -1,5 +1,6 @@
 package org.wahlzeit.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class SphericCoordinate implements Coordinate {
@@ -36,7 +37,7 @@ public class SphericCoordinate implements Coordinate {
 
     @Override
     public boolean isEqual(Coordinate coordinate) {
-        return this.equals(coordinate);
+        return this.equals(coordinate.asSphericCoordinate());
     }
 
     @Override
@@ -49,22 +50,10 @@ public class SphericCoordinate implements Coordinate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SphericCoordinate that = (SphericCoordinate) o;
-        return Double.compare(that.p, p) == 0 &&
-                Double.compare(that.a, a) == 0 &&
-                Double.compare(that.rad, rad) == 0;
-    }
 
-    protected double doGetCentralAngle(Coordinate coordinate){
-        CartesianCoordinate cartCoordinate = this.asCartesianCoordinate();
-        double cartesianSubtraction = cartCoordinate.getCartesianDistance(coordinate);
-        return Math.asin(cartesianSubtraction / 2) * 2;
-    }
-
-    protected CartesianCoordinate doAsCartesianCoordinate(){
-        double z = this.getRad() * Math.cos(Math.toRadians(this.getP()));
-        double y = this.getRad() * Math.sin(Math.toRadians(this.getP())) * Math.sin(Math.toRadians(this.getA()));
-        double x = this.getRad() * Math.sin(Math.toRadians(this.getP())) * Math.cos(Math.toRadians(this.getA()));
-        return new CartesianCoordinate(x, y, z);
+        return compareDouble(this.getA(), that.getA()) == 0 &&
+                compareDouble(this.getP(), that.getP()) == 0 &&
+                compareDouble(this.getRad(), that.getRad()) == 0;
     }
 
     public double getP() {
@@ -89,5 +78,22 @@ public class SphericCoordinate implements Coordinate {
 
     public void setRad(double rad) {
         this.rad = rad;
+    }
+
+    protected double doGetCentralAngle(Coordinate coordinate){
+        CartesianCoordinate cartCoordinate = this.asCartesianCoordinate();
+        double cartesianSubtraction = cartCoordinate.getCartesianDistance(coordinate);
+        return Math.asin(cartesianSubtraction / 2) * 2;
+    }
+
+    protected CartesianCoordinate doAsCartesianCoordinate(){
+        double z = this.getRad() * Math.cos(Math.toRadians(this.getP()));
+        double y = this.getRad() * Math.sin(Math.toRadians(this.getP())) * Math.sin(Math.toRadians(this.getA()));
+        double x = this.getRad() * Math.sin(Math.toRadians(this.getP())) * Math.cos(Math.toRadians(this.getA()));
+        return new CartesianCoordinate(x, y, z);
+    }
+
+    private static int compareDouble(double x, double y){
+        return new BigDecimal(x).compareTo(new BigDecimal(y));
     }
 }

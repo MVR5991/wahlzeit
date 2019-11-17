@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import java.math.BigDecimal;
+
 public interface Coordinate {
 
      CartesianCoordinate asCartesianCoordinate();
