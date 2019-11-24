@@ -1,48 +1,22 @@
 package org.wahlzeit.model;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate{
 
-    private double p;
-    private double a;
-    private double rad;
+    private double latitude;
+    private double longitude;
+    private double radius;
 
-    public SphericCoordinate(double p, double a, double rad) {
-        this.p = p;
-        this.a = a;
-        this.rad = rad;
-    }
-
-    @Override
-    public CartesianCoordinate asCartesianCoordinate() {
-        return doAsCartesianCoordinate();
+    public SphericCoordinate(double latitude, double longitude, double rad) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = rad;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(p, a, rad);
-    }
-
-    @Override
-    public double getCartesianDistance(Coordinate coordinate) {
-        return this.asCartesianCoordinate().getCartesianDistance(coordinate.asCartesianCoordinate());
-    }
-
-    @Override
-    public double getCentralAngle(Coordinate coordinate) {
-       return doGetCentralAngle(coordinate);
-    }
-
-    @Override
-    public boolean isEqual(Coordinate coordinate) {
-        return this.equals(coordinate.asSphericCoordinate());
-    }
-
-    @Override
-    public SphericCoordinate asSphericCoordinate() {
-        return this;
+        return Objects.hash(latitude, longitude, radius);
     }
 
     @Override
@@ -50,50 +24,43 @@ public class SphericCoordinate implements Coordinate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SphericCoordinate that = (SphericCoordinate) o;
-
-        return compareDouble(this.getA(), that.getA()) == 0 &&
-                compareDouble(this.getP(), that.getP()) == 0 &&
-                compareDouble(this.getRad(), that.getRad()) == 0;
+        return isEqual(that);
     }
 
-    public double getP() {
-        return p;
+    @Override
+    protected SphericCoordinate doAsSphericCoordinate() {
+        return this;
     }
 
-    public void setP(double p) {
-        this.p = p;
-    }
-
-    public double getA() {
-        return a;
-    }
-
-    public void setA(double a) {
-        this.a = a;
-    }
-
-    public double getRad() {
-        return rad;
-    }
-
-    public void setRad(double rad) {
-        this.rad = rad;
-    }
-
-    protected double doGetCentralAngle(Coordinate coordinate){
-        CartesianCoordinate cartCoordinate = this.asCartesianCoordinate();
-        double cartesianSubtraction = cartCoordinate.getCartesianDistance(coordinate);
-        return Math.asin(cartesianSubtraction / 2) * 2;
-    }
-
+    @Override
     protected CartesianCoordinate doAsCartesianCoordinate(){
-        double z = this.getRad() * Math.cos(Math.toRadians(this.getP()));
-        double y = this.getRad() * Math.sin(Math.toRadians(this.getP())) * Math.sin(Math.toRadians(this.getA()));
-        double x = this.getRad() * Math.sin(Math.toRadians(this.getP())) * Math.cos(Math.toRadians(this.getA()));
+        double z = this.getRadius() * Math.cos(Math.toRadians(this.getLatitude()));
+        double y = this.getRadius() * Math.sin(Math.toRadians(this.getLatitude())) * Math.sin(Math.toRadians(this.getLongitude()));
+        double x = this.getRadius() * Math.sin(Math.toRadians(this.getLatitude())) * Math.cos(Math.toRadians(this.getLongitude()));
         return new CartesianCoordinate(x, y, z);
     }
 
-    private static int compareDouble(double x, double y){
-        return new BigDecimal(x).compareTo(new BigDecimal(y));
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
     }
 }
