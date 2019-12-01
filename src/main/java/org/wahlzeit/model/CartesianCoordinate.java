@@ -1,6 +1,5 @@
 package org.wahlzeit.model;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class CartesianCoordinate extends AbstractCoordinate {
@@ -39,6 +38,17 @@ public class CartesianCoordinate extends AbstractCoordinate {
         if (o == null || getClass() != o.getClass()) return false;
         CartesianCoordinate that = (CartesianCoordinate) o;
         return isEqual(that);
+    }
+
+    @Override
+    protected void assertClassInVariant() throws IllegalStateException {
+        try {
+            AbstractCoordinate.assertDoubleValueisValid(this.getX());
+            AbstractCoordinate.assertDoubleValueisValid(this.getY());
+            AbstractCoordinate.assertDoubleValueisValid(this.getZ());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException(String.format(":::class invariant has been violated %s", e.getMessage()));
+        }
     }
 
     public double getX() {

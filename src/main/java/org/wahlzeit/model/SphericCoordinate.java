@@ -40,6 +40,17 @@ public class SphericCoordinate extends AbstractCoordinate{
         return new CartesianCoordinate(x, y, z);
     }
 
+    @Override
+    protected void assertClassInVariant() throws IllegalStateException {
+        try {
+            AbstractCoordinate.assertDoubleValueisValid(this.getLatitude());
+            AbstractCoordinate.assertDoubleValueisValid(this.getLongitude());
+            AbstractCoordinate.assertDoubleValueisValid(this.getRadius());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException(String.format(":::class invariant has been violated %s", e.getMessage()));
+        }
+    }
+
     public double getLatitude() {
         return latitude;
     }

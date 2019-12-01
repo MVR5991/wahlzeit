@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 
 public interface Coordinate {
 
-     CartesianCoordinate asCartesianCoordinate();
+     CartesianCoordinate asCartesianCoordinate() throws IllegalCoordinateException;
 
-     double getCartesianDistance(Coordinate coordinate);
+     double getCartesianDistance(Coordinate coordinate) throws IllegalCoordinateException;
 
-     double getCentralAngle(Coordinate coordinate);
+     double getCentralAngle(Coordinate coordinate) throws IllegalCoordinateException;
 
-     boolean isEqual(Coordinate coordinate);
+     boolean isEqual(Coordinate coordinate) throws IllegalCoordinateException;
 
-    SphericCoordinate asSphericCoordinate();
+    SphericCoordinate asSphericCoordinate() throws IllegalCoordinateException;
 
 }
