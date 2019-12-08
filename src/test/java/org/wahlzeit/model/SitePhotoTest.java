@@ -26,14 +26,12 @@ public class SitePhotoTest {
 
     @Test
     public void defaultPhotoShouldHaveNoAssociatedContinent() {
-        assertEquals(photo.getContinent(), SitePhoto.Continent.Unknown);
+        assertEquals(photo.getSite().getContinent(), Site.Continent.Unknown);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void setContinentWithInvalidEnumShouldThrowException() {
-        photo.setContinent(null);
+    public void setSiteWithInvalidEnumShouldThrowException() {
+        photo.setSite(null);
     }
-
-
 
 }

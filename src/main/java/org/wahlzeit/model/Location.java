@@ -2,17 +2,18 @@ package org.wahlzeit.model;
 
 public class Location {
 
-    private Coordinate coordinates;
+    private Coordinate coordinate;
 
-    public Location(Coordinate coordinates) {
-        this.coordinates = coordinates;
+    public Location(Coordinate coordinate) {
+        AbstractCoordinate.assertCoordinateIsNotNull(coordinate);
+        this.coordinate = coordinate;
     }
 
-    public Coordinate getCoordinates() {
-        return coordinates;
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
-    public void setCoordinates(Coordinate coordinates) {
-        this.coordinates = coordinates;
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 }

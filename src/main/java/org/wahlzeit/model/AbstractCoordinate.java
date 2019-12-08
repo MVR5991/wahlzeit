@@ -98,7 +98,7 @@ public abstract class AbstractCoordinate implements Coordinate {
         return new BigDecimal(x).compareTo(new BigDecimal(y));
     }
 
-    private static void assertCoordinateIsNotNull(Coordinate coordinate) throws IllegalArgumentException {
+    public static void assertCoordinateIsNotNull(Coordinate coordinate) throws IllegalArgumentException {
         if (coordinate == null) {
             throw new IllegalArgumentException(String.format(":::given coordinate is null"));
         }

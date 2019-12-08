@@ -3,36 +3,35 @@ package org.wahlzeit.model;
 
 public class SitePhoto extends Photo{
 
-    private Continent continent;
+    private Site site;
 
-
-    /**
-     * Enum type for the type of a train.
-     */
-    enum Continent {
-        Asian, European, American, African, Australian, Unknown;
-    }
     public SitePhoto() {
         super(PhotoId.getNextId());
-        this.continent = Continent.Unknown;
+        this.site = new Site();
     }
 
     public SitePhoto(PhotoId myId) {
         super(myId);
-        this.continent = Continent.Unknown;
+        this.site = new Site();
     }
 
-    public SitePhoto(Continent continent) {
-        super();
-        this.continent = continent;
+    public SitePhoto(Site.Continent continent, PhotoId myId) {
+        super(myId);
+        this.site = new Site(continent);
     }
 
-    public Continent getContinent() {
-        return continent;
+    public SitePhoto(Site.Continent continent) {
+        super(PhotoId.getNextId());
+        this.site = new Site(continent);
     }
 
-    public void setContinent(Continent continent) {
-        if(continent == null) throw new IllegalArgumentException("No Continent specified");
-        this.continent = continent;
+
+    public Site getSite() {
+        return site;
+    }
+
+    public void setSite(Site site) {
+        if(site == null) throw new IllegalArgumentException("no site specified");
+        this.site = site;
     }
 }
