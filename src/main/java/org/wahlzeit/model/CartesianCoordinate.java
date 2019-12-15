@@ -1,17 +1,37 @@
 package org.wahlzeit.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-public class CartesianCoordinate extends AbstractCoordinate {
+public final class CartesianCoordinate extends AbstractCoordinate {
 
-    private double x;
-    private double y;
-    private double z;
+    private final double x;
+    private final double y;
+    private final double z;
 
-    public CartesianCoordinate(double x, double y, double z) {
+    private static Map<Integer, CartesianCoordinate> knownCoordinates = new HashMap<Integer, CartesianCoordinate>();
+
+    private CartesianCoordinate(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public static CartesianCoordinate createOrGetCartesianCoordinate(double x, double y, double z){
+        AbstractCoordinate.assertDoubleValueisValid(x);
+        AbstractCoordinate.assertDoubleValueisValid(y);
+        AbstractCoordinate.assertDoubleValueisValid(z);
+
+        int hash = Objects.hash(x,y,z);
+
+        if(knownCoordinates.containsKey(hash)){
+            return knownCoordinates.get(hash);
+        } else{
+            knownCoordinates.put(hash,new CartesianCoordinate(x,y,z));
+            return knownCoordinates.get(hash);
+        }
+
     }
 
     @Override
@@ -19,7 +39,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
         double a = Math.toDegrees(Math.atan2(this.getY(), this.getX()));
         double rad = Math.sqrt(Math.pow(this.getZ(), 2) + Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2));
         double p = Math.toDegrees(Math.acos(this.getZ() / rad));
-        return new SphericCoordinate(p, a, rad);
+        return SphericCoordinate.createOrGetSphericCoordinate(p, a, rad);
     }
 
     @Override
@@ -55,23 +75,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
         return x;
     }
 
-    public void setX(double x) {
-        this.x = x;
-    }
-
     public double getY() {
         return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
     }
 
     public double getZ() {
         return z;
     }
 
-    public void setZ(double z) {
-        this.z = z;
-    }
 }

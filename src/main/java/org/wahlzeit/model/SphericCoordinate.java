@@ -1,17 +1,37 @@
 package org.wahlzeit.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-public class SphericCoordinate extends AbstractCoordinate{
+public final class SphericCoordinate extends AbstractCoordinate{
 
-    private double latitude;
-    private double longitude;
-    private double radius;
+    private final double latitude;
+    private final double longitude;
+    private final double radius;
 
-    public SphericCoordinate(double latitude, double longitude, double rad) {
+    private static Map<Integer, SphericCoordinate> knownCoordinates = new HashMap<Integer, SphericCoordinate>();
+
+    private SphericCoordinate(double latitude, double longitude, double rad) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = rad;
+    }
+
+    public static SphericCoordinate createOrGetSphericCoordinate(double latitude, double longitude, double radius){
+        AbstractCoordinate.assertDoubleValueisValid(latitude);
+        AbstractCoordinate.assertDoubleValueisValid(longitude);
+        AbstractCoordinate.assertDoubleValueisValid(radius);
+
+        int hash = Objects.hash(latitude,longitude,radius);
+
+        if(knownCoordinates.containsKey(hash)){
+            return knownCoordinates.get(hash);
+        } else{
+            knownCoordinates.put(hash,new SphericCoordinate(latitude,longitude,radius));
+            return knownCoordinates.get(hash);
+        }
+
     }
 
     @Override
@@ -37,7 +57,7 @@ public class SphericCoordinate extends AbstractCoordinate{
         double z = this.getRadius() * Math.cos(Math.toRadians(this.getLatitude()));
         double y = this.getRadius() * Math.sin(Math.toRadians(this.getLatitude())) * Math.sin(Math.toRadians(this.getLongitude()));
         double x = this.getRadius() * Math.sin(Math.toRadians(this.getLatitude())) * Math.cos(Math.toRadians(this.getLongitude()));
-        return new CartesianCoordinate(x, y, z);
+        return CartesianCoordinate.createOrGetCartesianCoordinate(x, y, z);
     }
 
     @Override
@@ -55,23 +75,12 @@ public class SphericCoordinate extends AbstractCoordinate{
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     public double getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     public double getRadius() {
         return radius;
     }
 
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
 }

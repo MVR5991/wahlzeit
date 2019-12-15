@@ -5,6 +5,11 @@ import java.math.BigDecimal;
 public abstract class AbstractCoordinate implements Coordinate {
 
     /**
+     * Maring for double comparisions
+     */
+    final static double EPSILON = 10E-8;
+
+    /**
      * @param coordinate
      * @return the cartesian distance between two coordinates
      */
@@ -68,9 +73,9 @@ public abstract class AbstractCoordinate implements Coordinate {
         asserClassInvariants(thatCoordinate);
         if (thisCoordinate == thatCoordinate) return true;
         if (thisCoordinate == null || getClass() != thatCoordinate.getClass()) return false;
-        return compareDouble(thisCoordinate.getX(), thatCoordinate.getX()) == 0 &&
-                compareDouble(thisCoordinate.getY(), thatCoordinate.getY()) == 0 &&
-                compareDouble(thisCoordinate.getZ(), thatCoordinate.getZ()) == 0;
+        return compareDouble(thisCoordinate.getX(), thatCoordinate.getX()) &&
+                compareDouble(thisCoordinate.getY(), thatCoordinate.getY()) &&
+                compareDouble(thisCoordinate.getZ(), thatCoordinate.getZ());
     }
 
     protected double doGetCartesianDistance(Coordinate coordinate) throws IllegalArgumentException, IllegalStateException  {
@@ -92,10 +97,10 @@ public abstract class AbstractCoordinate implements Coordinate {
 
     protected abstract SphericCoordinate doAsSphericCoordinate();
 
-    private static int compareDouble(double x, double y) throws IllegalArgumentException {
+    private static boolean compareDouble(double x, double y) throws IllegalArgumentException {
         assertDoubleValueisValid(x);
         assertDoubleValueisValid(y);
-        return new BigDecimal(x).compareTo(new BigDecimal(y));
+        return Math.abs(x -y) < AbstractCoordinate.EPSILON;
     }
 
     public static void assertCoordinateIsNotNull(Coordinate coordinate) throws IllegalArgumentException {
@@ -105,7 +110,7 @@ public abstract class AbstractCoordinate implements Coordinate {
     }
 
     public static void assertDoubleValueisValid(double val) throws IllegalArgumentException {
-        if (Double.isFinite(val)) {
+        if (!Double.isFinite(val)) {
             throw new IllegalArgumentException(String.format(":::given double value is not valid %s", val));
         }
     }
