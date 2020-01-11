@@ -1,7 +1,13 @@
 package org.wahlzeit.model;
 
-import java.math.BigDecimal;
-
+@PatternInstance(
+        patternName = "Template Method Pattern",
+        participants = {
+                "AbstractCoordinate.class",
+                "SphericCoordinate.class",
+                "CartesianCoordinate.class"
+        }
+)
 public abstract class AbstractCoordinate implements Coordinate {
 
     /**
