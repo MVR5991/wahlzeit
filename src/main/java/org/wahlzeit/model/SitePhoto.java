@@ -15,14 +15,14 @@ public class SitePhoto extends Photo{
         this.site = new Site();
     }
 
-    public SitePhoto(Site.Continent continent, PhotoId myId) {
+    public SitePhoto(String country, Site.Continent continent, PhotoId myId) {
         super(myId);
-        this.site = new Site(continent);
+        this.site = SiteManager.getInstance().createSite(country, continent);
     }
 
-    public SitePhoto(Site.Continent continent) {
+    public SitePhoto(String country, Site.Continent continent) {
         super(PhotoId.getNextId());
-        this.site = new Site(continent);
+        this.site = SiteManager.getInstance().createSite(country, continent);
     }
 
 

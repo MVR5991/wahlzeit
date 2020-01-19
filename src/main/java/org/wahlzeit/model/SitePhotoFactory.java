@@ -11,8 +11,8 @@ public class SitePhotoFactory extends PhotoFactory {
         return new SitePhoto(id);
     }
 
-    public SitePhoto createPhoto(Site.Continent continent) {
-        return new SitePhoto(continent);
+    public SitePhoto createPhoto(String country, Site.Continent continent) {
+        return new SitePhoto(country, continent);
     }
 
     public SitePhoto loadPhoto(PhotoId id) {
